@@ -4,7 +4,7 @@ channels:
 dependencies:
 - python=3.9
 - pip
-- ipykernel
+- ipykernel==6.13.0
 - pip:
   - pandas==1.4.2
   - numpy==1.22.4
@@ -12,3 +12,4 @@ dependencies:
   - seaborn==0.11.2
   - mlflow==1.26.1
   - scikit-learn==1.1.1
+  - mlflow==1.26.1
