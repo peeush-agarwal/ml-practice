@@ -1,0 +1,12 @@
+name: ml-practice-env
+channels:
+- conda-forge
+dependencies:
+- python=3.9
+- pip
+- pip:
+  - pandas==1.4.2
+  - numpy==1.22.4
+  - matplotlib==3.5.2
+  - seaborn==0.11.2
+  - mlflow==1.26.1
