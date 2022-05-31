@@ -11,6 +11,8 @@ import mlflow
 
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
+import seaborn as sns
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -28,6 +30,12 @@ def prepare_data(df:pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
     y = df[target_col].values
 
     return X, y
+
+def log_plot(y_true, y_pred, msg:str):
+    fig = plt.figure(figsize=(8, 6))
+    sns.heatmap(confusion_matrix(y_true, y_pred), annot=True)
+    mlflow.log_figure(fig, artifact_file=f"plots/pred_compare_{msg}.png")
+    fig.clear(True)
 
 
 if __name__ == "__main__":
@@ -68,4 +76,8 @@ if __name__ == "__main__":
             mlflow.log_metric("val_acc", acc_calc(y_val, y_val_pred))
             mlflow.log_metric("test_acc", acc_calc(y_test, y_test_pred))
 
+            log_plot(y_train, y_train_pred, msg="train")
+            log_plot(y_val, y_val_pred, msg="val")
+            log_plot(y_test, y_test_pred, msg="test")
+            
             mlflow.sklearn.log_model(lr, "models_mlflow")
