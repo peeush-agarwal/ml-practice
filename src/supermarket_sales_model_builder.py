@@ -13,20 +13,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 import mlflow
 
+import base_model_builder as bmb
+
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("supermarket-sales-exp")
-
-def load_data(file_path:str) -> pd.DataFrame:
-    return pd.read_csv(file_path)
-
-def split_data(df:pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    return train_test_split(df, test_size=0.2, random_state=41)
 
 def prepare_data(df:pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
     target_col = "Item_Outlet_Sales"
@@ -60,10 +55,10 @@ if __name__ == "__main__":
         mlflow.log_param("training path", args.train_path)
         mlflow.log_param("testing path", args.test_path)
 
-        df = load_data(args.train_path)
-        df_test = load_data(args.test_path)
+        df = bmb.load_data(args.train_path)
+        df_test = bmb.load_data(args.test_path)
 
-        df_train, df_val = split_data(df)
+        df_train, df_val = bmb.split_data(df)
         
         X_train, y_train = prepare_data(df_train)
         X_val, y_val = prepare_data(df_val)
