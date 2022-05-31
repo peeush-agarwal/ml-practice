@@ -6,7 +6,6 @@ Usage:
         -m lin_reg
 """
 import argparse
-from cProfile import label
 from typing import Tuple
 import pandas as pd
 import numpy as np
